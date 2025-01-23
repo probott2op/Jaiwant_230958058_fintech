@@ -1,0 +1,179 @@
+//Modify this code to update the diagram
+https://databasediagram.com/app
+https://dbdiagram.io/d
+https://online.visual-paradigm.com/diagrams/features/erd-tool/
+
+CUST_CL
+-
+CSTCL_ID Number(15) PK
+CSTCL_TYP VARCHAR(100)
+CSTCL_TYP_VALUE VARCHAR100)
+CSTCL_EFCTV_DATE DATE
+CSTCL_CRUD_VALUE char(1)
+CSTCL_USER_ID VARCHAR(100)
+CSTCL_WS_ID VARCHAR(100)
+CSTCL_PRGM_ID VARCHAR(100)
+CSTCL_HOST_TS TIMESTAMP
+CSTCL_LOCAL_TS TIMESTAMP
+CSTCL_ACPT_TS TIMESTAMP
+CSTCL_ACPT_TS_UTC_OFST TIMESTAMP
+CSTCL_UUID VARCHAR(100)
+
+CUST_ID
+-
+CST_ID NUMBER(15) PK
+CUSTID_TYPE VARCHAR(100)
+CUSTID_ITEM VARCHAR(100)
+CSTID_EFCTV_DATE DATE
+CSTID_CRUD_VALUE char(1)
+CSTID_USER_ID VARCHAR(100)
+CSTID_WS_ID VARCHAR(100)
+CSTID_PRGM_ID VARCHAR(100)
+CSTID_HOST_TS TIMESTAMP
+CSTID_LOCAL_TS TIMESTAMP
+CSTID_ACPT_TS TIMESTAMP
+CSTID_ACPT_TS_UTC_OFST TIMESTAMP
+CSTID_UUID VARCHAR(100)
+
+
+CUST_DETAILS
+-
+CST_ID NUMBER(15) PK FK > CUST_ID.CST_ID
+CSTDET_TYPE VARCHAR(100) PK FK > CUST_CL.CSTCL_ID
+CSTDET_FULL_NAME VARCHAR(100)
+CSTDET_DOB DATE
+CSTDET_STATUS VARCHAR(100)
+CSTDET_CONTACT NUMBER(15)
+CSTDET_MOBILE NUMBER(15)
+CSTDET_EMAIL VARCHAR(100)
+CSTDET_COUNTRY VARCHAR(100)
+CSTDET_EFCTV_DATE DATE
+CSTDET_CRUD_VALUE char(1)
+CSTDET_USER_ID VARCHAR(100)
+CSTDET_WS_ID VARCHAR(100)
+CSTDET_PRGM_ID VARCHAR(100)
+CSTDET_HOST_TS TIMESTAMP
+CSTDET_LOCAL_TS TIMESTAMP
+CSTDET_ACPT_TS TIMESTAMP
+CSTDET_ACPT_TS_UTC_OFST TIMESTAMP
+CSTDET_UUID VARCHAR(100)
+
+CUST_NAME
+-
+CST_ID NUMBER(15) PK FK > CUST_ID.CST_ID
+CSTNAME_CLS_ID NUMBER(15) PK FK > CUST_CL.CSTCL_ID
+CSTNAME_VALUE VARCHAR(100)
+CSTNAME_EFCTV_DATE DATE
+CSTNAME_CRUD_VALUE char(1)
+CSTNAME_USER_ID VARCHAR(100)
+CSTNAME_WS_ID VARCHAR(100)
+CSTNAME_PRGM_ID VARCHAR(100)
+CSTNAME_HOST_TS TIMESTAMP
+CSTNAME_LOCAL_TS TIMESTAMP
+CSTNAME_ACPT_TS TIMESTAMP
+CSTNAME_ACPT_TS_UTC_OFST TIMESTAMP
+CSTNAME_UUID VARCHAR(100)
+
+CUST_POI
+-
+CST_ID NUMBER(15) PK FK > CUST_ID.CST_ID
+CSTPOI_CLS_ID NUMBER(15) PK FK > CUST_CL.CSTCL_ID
+CSTPOI_VALUE VARCHAR(100)
+CSTPOI_START DATE
+CSTPOI_END DATE
+CSTPOI_EFCTV_DATE DATE
+CSTPOI_CRUD_VALUE char(1)
+CSTPOI_USER_ID VARCHAR(100)
+CSTPOI_WS_ID VARCHAR(100)
+CSTPOI_PRGM_ID VARCHAR(100)
+CSTPOI_HOST_TS TIMESTAMP
+CSTPOI_LOCAL_TS TIMESTAMP
+CSTPOI_ACPT_TS TIMESTAMP
+CSTPOI_ACPT_TS_UTC_OFST TIMESTAMP
+CSTPOI_UUID VARCHAR(100)
+
+CUST_ADDRESS
+-
+CST_ID NUMBER(15) PK FK > CUST_ID.CST_ID
+CSTADD_CLS_ID NUMBER(15) PK FK > CUST_CL.CSTCL_ID
+CSTADD_VALUE
+CSTADD_EFCTV_DATE DATE
+CSTADD_CRUD_VALUE char(1)
+CSTADD_USER_ID VARCHAR(100)
+CSTADD_WS_ID VARCHAR(100)
+CSTADD_PRGM_ID VARCHAR(100)
+CSTADD_HOST_TS TIMESTAMP
+CSTADD_LOCAL_TS TIMESTAMP
+CSTADD_ACPT_TS TIMESTAMP
+CSTADD_ACPT_TS_UTC_OFST TIMESTAMP
+CSTADD_UUID VARCHAR(100)
+
+
+Let's break down your schema and the relationships step by step. I understand you're trying to figure out the relationships (cardinality) between your tables, the primary keys (PK), and foreign keys (FK). Based on your description, here's how I would structure the tables and their relationships.
+
+### Schema Understanding
+
+- **Customer Table:**
+  - `customer(custID, custPass)`
+  - This table holds customer information where:
+    - `custID` is a unique identifier for each customer.
+    - `custPass` is the password for the customer.
+
+- **CSTNAME Table:**
+  - `CSTNAME(custID, CUST_CLS_ID, CUST_CLS_VALUE)`
+  - This table holds specific customer details such as the first and last name. 
+    - `custID` is the customer reference.
+    - `CUST_CLS_ID` is a reference to a classification type (like "first_name", "last_name").
+    - `CUST_CLS_VALUE` is the actual value for that classification (e.g., "Ram" for first name, "Sethi" for last name).
+
+- **CSTCLS Table:**
+  - `CSTCLS(CUST_CLS_ID, CUST_CLS_TYPE)`
+  - This table holds the classification type (such as "first_name", "last_name").
+    - `CUST_CLS_ID` is a unique identifier for each classification type.
+    - `CUST_CLS_TYPE` is a description of what the classification is (e.g., "First Name", "Last Name").
+
+### Cardinality
+
+1. **Between `customer` and `CSTNAME`:**
+   - A **customer** can have **multiple entries** in the `CSTNAME` table (because a customer can have many attributes such as first name, last name, etc.). 
+   - On the other hand, each **entry** in `CSTNAME` refers to **one** customer. 
+   - **Cardinality**: **One-to-Many** (1 customer can have many records in `CSTNAME`).
+
+2. **Between `CSTNAME` and `CSTCLS`:**
+   - `CSTNAME` references `CSTCLS` using the `CUST_CLS_ID`, where each `CST_CLS_ID` in `CSTNAME` corresponds to exactly one `CUST_CLS_TYPE` in `CSTCLS`.
+   - Each classification type (e.g., "first_name", "last_name") can appear many times in `CSTNAME` (for different customers).
+   - **Cardinality**: **Many-to-One** (many entries in `CSTNAME` can reference the same classification type in `CSTCLS`).
+
+### Primary and Foreign Keys
+
+1. **`customer` table:**
+   - **Primary Key**: `custID` (unique identifier for each customer).
+   - This table doesn't have any foreign key relationships since it's the root table.
+
+2. **`CSTNAME` table:**
+   - **Primary Key**: A composite key `(custID, CUST_CLS_ID)` since each customer can have multiple classification types, and the combination of `custID` and `CUST_CLS_ID` should be unique.
+   - **Foreign Key**:
+     - `custID` references the `custID` in the `customer` table.
+     - `CUST_CLS_ID` references the `CUST_CLS_ID` in the `CSTCLS` table.
+
+3. **`CSTCLS` table:**
+   - **Primary Key**: `CUST_CLS_ID` (unique identifier for each classification type).
+   - This table doesn't have foreign keys, as it simply holds the types of classifications available for customers.
+
+### Summary
+
+1. **Cardinality:**
+   - **Between `customer` and `CSTNAME`**: One-to-Many (One customer can have multiple entries in `CSTNAME`).
+   - **Between `CSTNAME` and `CSTCLS`**: Many-to-One (Many entries in `CSTNAME` can refer to one entry in `CSTCLS`).
+
+2. **Primary Keys:**
+   - `customer`: `custID`
+   - `CSTNAME`: Composite key (`custID`, `CUST_CLS_ID`)
+   - `CSTCLS`: `CUST_CLS_ID`
+
+3. **Foreign Keys:**
+   - `CSTNAME`:
+     - `custID` references `customer(custID)`
+     - `CUST_CLS_ID` references `CSTCLS(CUST_CLS_ID)`
+
+This schema should give you a clear understanding of the structure and relationships between the tables!
