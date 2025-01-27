@@ -1,4 +1,4 @@
-package com.roll31.lab3.controller;
+package com.roll31.lab3.entity;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -18,11 +18,13 @@ public class CUST_DETAILS {
     @Id
     Long id;
     String type;
+    String fullName;
     Date dob;
     String status;
     String contact;
     String mobile;
     String email;
+    String country;
     Date efctv_date;
     char crud_value;
     String user_id;
@@ -49,6 +51,16 @@ public class CUST_DETAILS {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public void setFullName(String fullName)
+    {
+        this.fullName = fullName;
+    }
+
+    public String getFullName()
+    {
+        return fullName;
     }
 
     public Date getDob() {
@@ -89,6 +101,14 @@ public class CUST_DETAILS {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public Date getEfctv_date() {

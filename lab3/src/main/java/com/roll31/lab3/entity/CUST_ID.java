@@ -1,4 +1,4 @@
-package com.roll31.lab3.controller;
+package com.roll31.lab3.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

@@ -1,0 +1,19 @@
+{
+    "type": "indvidual",
+    "customerFullName": [
+        {
+            "nameType":"firstName",
+            "nameValue":"Arav"
+        },
+        {
+            "nameType":"lastName",
+            "nameValue":"Patel"
+        } 
+    ],
+    "dob": "2005-09-05",
+    "status": "Active",
+    "contact": "9704065780",
+    "mobile": "9704065780",
+    "email": "AravPatel@gmail.com",
+    "country": "India"
+}
