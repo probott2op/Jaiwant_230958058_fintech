@@ -3,7 +3,6 @@ package com.roll31.lab3.entity;
 import java.sql.Date;
 import java.sql.Timestamp;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -15,50 +14,36 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "CUST_DETAILS")
+@Table(name = "CUST_CL")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CUST_DETAILS {
+public class CUST_CL {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "CST_ID")
+    @Column(name = "CSTCL_ID")
     private Long id;
-    @Column(name = "CSTDET_TYPE")
+    @Column(name = "CSTCL_TYP")
     private String type;
-    @Column(name = "CSTDET_FULL_NAME")
-    private String fullName;
-    @Column(name = "CSTDET_DOB")
-    private Date dob;
-    @Column(name = "CSTDET_STATUS")
-    private String status;
-    @Column(name = "CSTDET_CONTACT")
-    private String contact;
-    @Column(name = "CSTDET_MOBILE")
-    private String mobile;
-    @Column(name = "CSTDET_EMAIL")
-    private String email;
-    @Column(name = "CSTDET_COUNTRY")
-    private String country;
+    @Column(name = "CSTCL_TYP_VALUE")
+    private String typeValue;
     @Column(name = "CSTDET_EFCTV_DATE")
     private Date efctv_date;
-    @Column(name = "CSTDET_CRUD_VALUE")
+    @Column(name = "CSTNAME_CRUD_VALUE")
     private char crud_value;
-    @Column(name = "CSTDET_USER_ID")
+    @Column(name = "CSTNAME_USER_ID")
     private String user_id;
-    @Column(name = "CSTDET_WS_ID")
+    @Column(name = "CSTNAME_WS_ID")
     private String ws_id;
-    @Column(name = "CSTDET_PRGM_ID")
+    @Column(name = "CSTNAME_PRGM_ID")
     private String prgm_id;
-    @Column(name = "CSTDET_HOST_TS")
+    @Column(name = "CSTNAME_HOST_TS")
     private Timestamp host_ts;
-    @Column(name = "CSTDET_LOCAL_TS")
+    @Column(name = "CSTNAME_LOCAL_TS")
     private Timestamp local_ts;
-    @Column(name = "CSTDET_ACPT_TS")
+    @Column(name = "CSTNAME_ACPT_TS")
     private Timestamp acpt_ts;
-    @Column(name = "CSTDET_ACPT_TS_UTC_OFST")
+    @Column(name = "CSTNAME_ACPT_TS_UTC_OFST")
     private Timestamp acpt_ts_utc_ofst;
-
-    // Getters and Setters
 
     public Long getId() {
         return id;
@@ -76,62 +61,14 @@ public class CUST_DETAILS {
         this.type = type;
     }
 
-    public void setFullName(String fullName)
+    public void setTypeValue(String typeValue)
     {
-        this.fullName = fullName;
+        this.typeValue = typeValue;
     }
 
-    public String getFullName()
+    public String getTypeValue()
     {
-        return fullName;
-    }
-
-    public Date getDob() {
-        return dob;
-    }
-
-    public void setDob(Date dob) {
-        this.dob = dob;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getContact() {
-        return contact;
-    }
-
-    public void setContact(String contact) {
-        this.contact = contact;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
+        return typeValue;
     }
 
     public Date getEfctv_date() {
