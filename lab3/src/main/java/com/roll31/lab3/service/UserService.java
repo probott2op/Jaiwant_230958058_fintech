@@ -1,6 +1,6 @@
 package com.roll31.lab3.service;
 
-/*import java.util.List;
+import java.util.List;
 
 import com.roll31.lab3.DAO.UserRepository;
 import com.roll31.lab3.entity.User;
@@ -17,4 +17,4 @@ public class UserService {
     public User saveUser(User user) {
         return userRepository.save(user);
     }
-}*/
+}
