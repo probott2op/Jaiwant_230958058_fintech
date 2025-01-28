@@ -1,6 +1,8 @@
 package com.roll31.lab3.controller;
 
 import com.roll31.lab3.DTO.CustomerDetailsDTO;
+import com.roll31.lab3.DTO.NameTypeValue;
+import com.roll31.lab3.entity.CUST_CL;
 import com.roll31.lab3.entity.CUST_DETAILS;
 import com.roll31.lab3.entity.User;
 import com.roll31.lab3.service.CustomerService;
@@ -31,5 +33,11 @@ public class UserController {
     {
        CUST_DETAILS cust_DETAILS = customerService.addCustomerDetails(customerDetailDTO);
        return cust_DETAILS;
+    }
+    @PostMapping("/addClassification")
+    public CUST_CL createClassification(@RequestBody NameTypeValue nameTypeValue)
+    {
+        CUST_CL cust_cl = customerService.addClassification(nameTypeValue);
+        return cust_cl;
     }
 }

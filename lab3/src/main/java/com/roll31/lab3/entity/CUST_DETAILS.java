@@ -2,7 +2,7 @@ package com.roll31.lab3.entity;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -12,13 +12,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "CUST_DETAILS")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CUST_DETAILS {
+public class CUST_DETAILS implements AuditLoggable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CST_ID")
@@ -58,7 +60,21 @@ public class CUST_DETAILS {
     @Column(name = "CSTDET_ACPT_TS_UTC_OFST")
     private Timestamp acpt_ts_utc_ofst;
 
+    /*@OneToMany
+    @JoinColumn(name = "fk_CST_ID", referencedColumnName = "CST_ID")
+    private List<CUST_NAME> cust_NAME;
+
     // Getters and Setters
+
+    public void setCust_NAME(List<CUST_NAME> cust_NAME)
+    {
+        this.cust_NAME = cust_NAME;
+    }
+
+    public List<CUST_NAME> getCust_NAME()
+    {
+        return cust_NAME;
+    }*/
 
     public Long getId() {
         return id;

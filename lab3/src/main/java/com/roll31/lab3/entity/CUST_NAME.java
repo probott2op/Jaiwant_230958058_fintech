@@ -11,17 +11,19 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "CUST_NAME")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CUST_NAME {
+public class CUST_NAME implements AuditLoggable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "CSTNAME_CLS_ID")
+    @Column(name = "CSTNAME_TYPE")
     private String type;
     @Column(name = "CSTNAME_VALUE")
     private String value;
@@ -44,13 +46,32 @@ public class CUST_NAME {
     @Column(name = "CSTNAME_ACPT_TS_UTC_OFST")
     private Timestamp acpt_ts_utc_ofst;
 
-    public Long getId() {
-        return id;
+    @ManyToOne
+    @JoinColumn(name = "CST_ID")
+    private CUST_DETAILS cust_DETAILS;
+    /*@ManyToOne
+    @JoinColumn(name = "CSTCL_ID")
+    private CUST_CL cust_CL;*/
+
+    public void setCust_DETAILS(CUST_DETAILS cust_DETAILS)
+    {
+        this.cust_DETAILS = cust_DETAILS;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public CUST_DETAILS getCust_DETAILS()
+    {
+        return cust_DETAILS;
     }
+
+    /*public CUST_CL getCust_CL()
+    {
+        return cust_CL;
+    }
+
+    public void setCust_CL(CUST_CL cust_CL)
+    {
+        this.cust_CL = cust_CL;
+    }*/
 
     public String getType() {
         return type;
@@ -58,6 +79,14 @@ public class CUST_NAME {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setValue(String value)
