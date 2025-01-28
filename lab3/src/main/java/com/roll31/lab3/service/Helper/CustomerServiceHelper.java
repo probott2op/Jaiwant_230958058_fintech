@@ -5,9 +5,10 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.roll31.lab3.DAO.CustomerClassificationRepository;
 import com.roll31.lab3.DTO.CustomerDetailsDTO;
 import com.roll31.lab3.DTO.NameTypeValue;
 import com.roll31.lab3.entity.AuditLoggable;
@@ -21,8 +22,12 @@ import com.roll31.lab3.entity.CUST_NAME;
 // cls Id from there
 // Also I want to rename NameTypeValue to TypeValue since it
 // is being reused
+
 @Component
 public class CustomerServiceHelper {
+    @Autowired
+    CustomerClassificationRepository customerClassificationRepository;
+
     public CUST_DETAILS generateCust_DETAILS(CustomerDetailsDTO customerDetailsDTO)
     {
         CUST_DETAILS cust_DETAILS = new CUST_DETAILS();
@@ -36,7 +41,7 @@ public class CustomerServiceHelper {
         // transferring mobile
         cust_DETAILS.setMobile(customerDetailsDTO.getMobile());
         // transferring contact
-        cust_DETAILS.setContact(customerDetailsDTO.getContact());
+        // cust_DETAILS.setContact(customerDetailsDTO.getContact());
         // transferring email
         cust_DETAILS.setEmail(customerDetailsDTO.getEmail());
         // transferring country
@@ -82,8 +87,9 @@ public class CustomerServiceHelper {
     public CUST_NAME generateCust_NAME(CUST_DETAILS cust_DETAILS, NameTypeValue namePart)
     {
         CUST_NAME cust_NAME = new CUST_NAME();
-        // Setting the type and value
-        cust_NAME.setType(namePart.getNameType());
+        // Setting the type and value, which is many to one
+        CUST_CL cust_CL = customerClassificationRepository.findByType(namePart.getNameType());
+        cust_NAME.setCust_CL(cust_CL);
         cust_NAME.setValue(namePart.getNameValue());
         // setting the relationship , which is many to one
         cust_NAME.setCust_DETAILS(cust_DETAILS);

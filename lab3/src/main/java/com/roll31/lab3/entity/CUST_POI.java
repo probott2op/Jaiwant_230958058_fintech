@@ -11,64 +11,83 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "CUST_CL")
+@Table(name = "CUST_POI")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CUST_CL implements AuditLoggable{
+public class CUST_POI {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "CSTCL_ID")
+    @Column(name = "CSTPOI_IDFR")
     private Long id;
-    @Column(name = "CSTCL_TYP")
-    private String type;
-    @Column(name = "CSTCL_TYP_VALUE")
-    private String typeValue;
-    @Column(name = "CSTCL_EFCTV_DATE")
+    @Column(name = "CSTPOI_VALUE")
+    private String value;
+    @Column(name = "CSTPOI_EFCTV_DATE")
     private Date efctv_date;
-    @Column(name = "CSTCL_CRUD_VALUE")
+    @Column(name = "CSTPOI_CRUD_VALUE")
     private char crud_value;
-    @Column(name = "CSTCL_USER_ID")
+    @Column(name = "CSTPOI_USER_ID")
     private String user_id;
-    @Column(name = "CSTCL_WS_ID")
+    @Column(name = "CSTPOI_WS_ID")
     private String ws_id;
-    @Column(name = "CSTCL_PRGM_ID")
+    @Column(name = "CSTPOI_PRGM_ID")
     private String prgm_id;
-    @Column(name = "CSTCL_HOST_TS")
+    @Column(name = "CSTPOI_HOST_TS")
     private Timestamp host_ts;
-    @Column(name = "CSTCL_LOCAL_TS")
+    @Column(name = "CSTPOI_LOCAL_TS")
     private Timestamp local_ts;
-    @Column(name = "CSTCL_ACPT_TS")
+    @Column(name = "CSTPOI_ACPT_TS")
     private Timestamp acpt_ts;
-    @Column(name = "CSTCL_ACPT_TS_UTC_OFST")
+    @Column(name = "CSTPOI_ACPT_TS_UTC_OFST")
     private Timestamp acpt_ts_utc_ofst;
 
-    public Long getId() {
-        return id;
+    @ManyToOne
+    @JoinColumn(name = "CST_ID")
+    private CUST_DETAILS cust_DETAILS;
+    @ManyToOne
+    @JoinColumn(name = "CSTPOI_CLS_ID")
+    private CUST_CL cust_CL;
+
+    public void setCust_DETAILS(CUST_DETAILS cust_DETAILS)
+    {
+        this.cust_DETAILS = cust_DETAILS;
     }
 
-    public void setId(Long id) {
+    public CUST_DETAILS getCust_DETAILS()
+    {
+        return cust_DETAILS;
+    }
+
+    public CUST_CL getCust_CL()
+    {
+        return cust_CL;
+    }
+
+    public void setCust_CL(CUST_CL cust_CL)
+    {
+        this.cust_CL = cust_CL;
+    }
+
+    public void setId(Long id)
+    {
         this.id = id;
     }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public void setTypeValue(String typeValue)
+    public Long getId()
     {
-        this.typeValue = typeValue;
+        return id;
+    }
+    public void setValue(String value)
+    {
+        this.value = value;
     }
 
-    public String getTypeValue()
+    public String getValue()
     {
-        return typeValue;
+        return value;
     }
 
     public Date getEfctv_date() {
@@ -143,4 +162,3 @@ public class CUST_CL implements AuditLoggable{
         this.acpt_ts_utc_ofst = acpt_ts_utc_ofst;
     }
 }
-

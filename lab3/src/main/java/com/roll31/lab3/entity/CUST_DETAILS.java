@@ -33,8 +33,8 @@ public class CUST_DETAILS implements AuditLoggable{
     private Date dob;
     @Column(name = "CSTDET_STATUS")
     private String status;
-    @Column(name = "CSTDET_CONTACT")
-    private String contact;
+    /*@Column(name = "CSTDET_CONTACT")
+    private String contact;*/
     @Column(name = "CSTDET_MOBILE")
     private String mobile;
     @Column(name = "CSTDET_EMAIL")
@@ -118,13 +118,13 @@ public class CUST_DETAILS implements AuditLoggable{
         this.status = status;
     }
 
-    public String getContact() {
+    /*public String getContact() {
         return contact;
     }
 
     public void setContact(String contact) {
         this.contact = contact;
-    }
+    }*/
 
     public String getMobile() {
         return mobile;
