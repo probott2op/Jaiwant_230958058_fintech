@@ -19,7 +19,7 @@ import jakarta.persistence.Table;
 @Table(name = "CUST_ID")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CUST_ID {
+public class CUST_ID implements AuditLoggable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CSTID_IDFR")

@@ -5,13 +5,12 @@ import java.util.List;
 
 public class CustomerDetailsDTO {
     private String type;
-    private List<NameTypeValue> customerFullName;
+    private List<TypeValue> customerFullName;
     private Date dob;
     private String status;
-    private String contact;
     private String mobile;
     private String email;
-    private String country;
+    private List<TypeValue> customerFullAdress;
 
     //Getters and setters
 
@@ -23,12 +22,12 @@ public class CustomerDetailsDTO {
         this.type = type;
     }
 
-    public void setCustomerFullName(List<NameTypeValue> customerFullName)
+    public void setCustomerFullName(List<TypeValue> customerFullName)
     {
         this.customerFullName = customerFullName;
     }
 
-    public List<NameTypeValue> getCustomerFullName()
+    public List<TypeValue> getCustomerFullName()
     {
         return customerFullName;
     }
@@ -49,14 +48,6 @@ public class CustomerDetailsDTO {
         this.status = status;
     }
 
-    public String getContact() {
-        return contact;
-    }
-
-    public void setContact(String contact) {
-        this.contact = contact;
-    }
-
     public String getMobile() {
         return mobile;
     }
@@ -73,11 +64,11 @@ public class CustomerDetailsDTO {
         this.email = email;
     }
 
-    public String getCountry() {
-        return country;
+    public List<TypeValue> getCustomerFullAddress() {
+        return customerFullAdress;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
+    public void setCustomerFullAddress(List<TypeValue> customerFullAddress) {
+        this.customerFullAdress = customerFullAddress;
     }
 }
