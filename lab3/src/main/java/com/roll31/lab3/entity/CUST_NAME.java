@@ -22,6 +22,7 @@ import jakarta.persistence.Table;
 public class CUST_NAME implements AuditLoggable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "CSTNAME_IDFR")
     private Long id;
     /*@Column(name = "CSTNAME_TYPE")
     private String type;*/
@@ -50,7 +51,7 @@ public class CUST_NAME implements AuditLoggable{
     @JoinColumn(name = "CST_ID")
     private CUST_DETAILS cust_DETAILS;
     @ManyToOne
-    @JoinColumn(name = "CSTCL_ID")
+    @JoinColumn(name = "CSTNAME_CLS_ID")
     private CUST_CL cust_CL;
 
     public void setCust_DETAILS(CUST_DETAILS cust_DETAILS)

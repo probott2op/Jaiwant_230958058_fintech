@@ -49,7 +49,7 @@ public class CUST_ID implements AuditLoggable{
     @JoinColumn(name = "CST_ID")
     private CUST_DETAILS cust_DETAILS;
     @ManyToOne
-    @JoinColumn(name = "CSTCL_ID")
+    @JoinColumn(name = "CSTID_CLS_ID")
     private CUST_CL cust_CL;
 
     public void setCust_DETAILS(CUST_DETAILS cust_DETAILS)
