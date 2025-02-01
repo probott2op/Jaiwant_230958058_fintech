@@ -2,19 +2,49 @@
     "type": "indvidual",
     "customerFullName": [
         {
-            "nameType":"firstName",
-            "nameValue":"Arav"
+            "type":"firstName",
+            "value":"Arav"
         },
         {
-            "nameType":"lastName",
-            "nameValue":"Patel"
+            "type":"lastName",
+            "value":"Patel"
         } 
     ],
     "dob": "2005-09-05",
     "status": "Active",
     "mobile": "9704065780",
     "email": "AravPatel@gmail.com",
-    "country": "India"
+    "customerFullAddress": [
+        {
+            "type": "building",
+            "value": "Regent towers"
+        },
+        {
+            "type": "street",
+            "value": "dalal street"
+        },
+        {
+
+            "type": "city",
+            "value": "Old Delhi"
+        },
+        {
+            "type": "district",
+            "value": "N-W Delhi"
+        },
+        {
+            "type": "state",
+            "value": "Delhi"
+        },
+        {
+            "type": "pincode",
+            "value": "120670"
+        },
+        {
+            "type": "country",
+            "value": "India"
+        }
+    ]
 }
 {
     "type": "indvidual",
