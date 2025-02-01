@@ -1,6 +1,7 @@
 package com.roll31.lab3.controller;
 
 import com.roll31.lab3.DTO.CustomerDetailsDTO;
+import com.roll31.lab3.DTO.CustomerPoiDTO;
 import com.roll31.lab3.DTO.TypeValue;
 import com.roll31.lab3.entity.CUST_ADDRESS;
 import com.roll31.lab3.entity.CUST_CL;
@@ -27,7 +28,7 @@ public class UserController {
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
-    @PostMapping("/addUsers")
+    @PostMapping("/addUser")
     public User createUser(@RequestBody User user) {
         return userService.saveUser(user);
     }
@@ -44,9 +45,9 @@ public class UserController {
         return cust_cl;
     }
     @PostMapping("/addPOI/{id}")
-    public CUST_POI createCust_POI(@PathVariable("id") Long id, @RequestBody TypeValue poiTypeValue )
+    public CUST_POI createCust_POI(@PathVariable("id") Long id, @RequestBody CustomerPoiDTO customerPoiDTO)
     {
-        CUST_POI cust_POI = customerService.addCust_POI(id, poiTypeValue);
+        CUST_POI cust_POI = customerService.addCust_POI(id, customerPoiDTO);
         return cust_POI;
     }
 

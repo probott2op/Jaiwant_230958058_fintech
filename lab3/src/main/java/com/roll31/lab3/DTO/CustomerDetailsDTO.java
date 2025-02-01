@@ -10,7 +10,7 @@ public class CustomerDetailsDTO {
     private String status;
     private String mobile;
     private String email;
-    private List<TypeValue> customerFullAdress;
+    private List<TypeValue> customerFullAddress;
 
     //Getters and setters
 
@@ -65,10 +65,10 @@ public class CustomerDetailsDTO {
     }
 
     public List<TypeValue> getCustomerFullAddress() {
-        return customerFullAdress;
+        return customerFullAddress;
     }
 
     public void setCustomerFullAddress(List<TypeValue> customerFullAddress) {
-        this.customerFullAdress = customerFullAddress;
+        this.customerFullAddress = customerFullAddress;
     }
 }

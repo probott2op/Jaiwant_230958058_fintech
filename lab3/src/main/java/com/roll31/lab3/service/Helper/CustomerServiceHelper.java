@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.roll31.lab3.DAO.CustomerClassificationRepository;
 import com.roll31.lab3.DTO.CustomerDetailsDTO;
+import com.roll31.lab3.DTO.CustomerPoiDTO;
 import com.roll31.lab3.DTO.TypeValue;
 import com.roll31.lab3.entity.AuditLoggable;
 import com.roll31.lab3.entity.CUST_ADDRESS;
@@ -36,8 +37,9 @@ public class CustomerServiceHelper {
     {
         CUST_DETAILS cust_DETAILS = new CUST_DETAILS();
 
-        // transferring the type from DTO to Entity object
-        cust_DETAILS.setType(customerDetailsDTO.getType());
+        // transferring the type from DTO to Entity object by getting Id from CUST_CL
+        CUST_CL typeCl = customerClassificationRepository.findByType(customerDetailsDTO.getType());
+        cust_DETAILS.setType(typeCl);
         // transferring dob
         cust_DETAILS.setDob(customerDetailsDTO.getDob());
         // transferring status
@@ -52,7 +54,7 @@ public class CustomerServiceHelper {
         List<TypeValue> address = customerDetailsDTO.getCustomerFullAddress();
         for (TypeValue territory: address)
         {
-            if (territory.getType().toLowerCase() == "country")
+            if (territory.getType().toLowerCase().equals("country"))
             {
                 cust_DETAILS.setCountry(territory.getValue());
             }
@@ -90,6 +92,7 @@ public class CustomerServiceHelper {
         cust_CL.setType(nameTypeValue.getType());
         // setting the classification value
         cust_CL.setTypeValue(nameTypeValue.getValue());
+        cust_CL.setCrud_value('C');
         setAuditLog(cust_CL);
         return cust_CL;
     }
@@ -129,6 +132,7 @@ public class CustomerServiceHelper {
         }
         // setting the actual address value
         cust_ADDRESS.setValue(territory.getValue());
+        cust_ADDRESS.setCrud_value('C');
         // setting audit log
         setAuditLog(cust_ADDRESS);
         return cust_ADDRESS;
@@ -152,20 +156,21 @@ public class CustomerServiceHelper {
          }
          // setting the actual ID value
          cust_ID.setValue(IdTypeValue.getValue());
+         cust_ID.setCrud_value('C');
          // setting audit log
          setAuditLog(cust_ID);
          return cust_ID;
      }
 
     // when given the POI type and value pair it creates the CUST_POI object
-    public CUST_POI generateCust_POI(Optional<CUST_DETAILS> cust_DETAILS, TypeValue poiTypeValue)
+    public CUST_POI generateCust_POI(Optional<CUST_DETAILS> cust_DETAILS, CustomerPoiDTO customerPoiDTO)
     {
         CUST_POI cust_POI = new CUST_POI();
         // get the classification Id for the type of address
-        CUST_CL cust_CL = customerClassificationRepository.findByType(poiTypeValue.getType());
+        CUST_CL cust_CL = customerClassificationRepository.findByType(customerPoiDTO.getType());
         cust_POI.setCust_CL(cust_CL);
         // set the actual POI value
-        cust_POI.setValue(poiTypeValue.getValue());
+        cust_POI.setValue(customerPoiDTO.getValue());
         // setting the customer whose address it is
         if (cust_DETAILS.isPresent())
         {
@@ -175,6 +180,10 @@ public class CustomerServiceHelper {
         {
             //throw new Exception("Id doesnt exist");
         }
+        // set start and end date of the id
+        cust_POI.setStart(customerPoiDTO.getStart());
+        cust_POI.setEnd(customerPoiDTO.getEnd());
+        cust_POI.setCrud_value('C');
         // setting the audit log
         setAuditLog(cust_POI);
         return cust_POI;

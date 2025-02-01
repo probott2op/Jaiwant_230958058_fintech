@@ -12,8 +12,26 @@
     ],
     "dob": "2005-09-05",
     "status": "Active",
-    "contact": "9704065780",
     "mobile": "9704065780",
     "email": "AravPatel@gmail.com",
     "country": "India"
+}
+{
+    "type": "indvidual",
+    "customerFullName": [
+        {
+            "nameType":"firsstName",
+            "nameValue":"Lucius"
+        },
+        {
+            "nameType":"MidddleName",
+            "nameValue":"Seneca"
+        } 
+    ],
+    "dob": "2005-09-07",
+    "status": "Active",
+    "contact": "9704065780",
+    "mobile": "9704065780",
+    "email": "Seneca@gmail.com",
+    "country": "Italy"
 }

@@ -16,45 +16,40 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "CUST_POI")
+@Table(name = "CUST_SIGNIN")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CUST_POI implements AuditLoggable{
+public class CUST_SIGNIN {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "CSTPOI_IDFR")
+    @Column(name = "CSTSIGN_IDFR")
     private Long id;
-    @Column(name = "CSTPOI_VALUE")
-    private String value;
-    @Column(name = "CSTPOI_START")
-    private Date start;
-    @Column(name = "CSTPOI_END")
-    private Date end;
-    @Column(name = "CSTPOI_EFCTV_DATE")
+    @Column(name = "CSTSIGN_USRNAME")
+    private String userName;
+    @Column(name = "CSTSIGN_PASSWORD")
+    private String password;
+    @Column(name = "CSTSIGN_EFCTV_DATE")
     private Date efctv_date;
-    @Column(name = "CSTPOI_CRUD_VALUE")
+    @Column(name = "CSTSIGN_CRUD_VALUE")
     private char crud_value;
-    @Column(name = "CSTPOI_USER_ID")
+    @Column(name = "CSTSIGN_USER_ID")
     private String user_id;
-    @Column(name = "CSTPOI_WS_ID")
+    @Column(name = "CSTSIGN_WS_ID")
     private String ws_id;
-    @Column(name = "CSTPOI_PRGM_ID")
+    @Column(name = "CSTSIGN_PRGM_ID")
     private String prgm_id;
-    @Column(name = "CSTPOI_HOST_TS")
+    @Column(name = "CSTSIGN_HOST_TS")
     private Timestamp host_ts;
-    @Column(name = "CSTPOI_LOCAL_TS")
+    @Column(name = "CSTSIGN_LOCAL_TS")
     private Timestamp local_ts;
-    @Column(name = "CSTPOI_ACPT_TS")
+    @Column(name = "CSTSIGN_ACPT_TS")
     private Timestamp acpt_ts;
-    @Column(name = "CSTPOI_ACPT_TS_UTC_OFST")
+    @Column(name = "CSTSIGN_ACPT_TS_UTC_OFST")
     private Timestamp acpt_ts_utc_ofst;
 
     @ManyToOne
     @JoinColumn(name = "CST_ID")
     private CUST_DETAILS cust_DETAILS;
-    @ManyToOne
-    @JoinColumn(name = "CSTPOI_CLS_ID")
-    private CUST_CL cust_CL;
 
     public void setCust_DETAILS(CUST_DETAILS cust_DETAILS)
     {
@@ -66,16 +61,6 @@ public class CUST_POI implements AuditLoggable{
         return cust_DETAILS;
     }
 
-    public CUST_CL getCust_CL()
-    {
-        return cust_CL;
-    }
-
-    public void setCust_CL(CUST_CL cust_CL)
-    {
-        this.cust_CL = cust_CL;
-    }
-
     public void setId(Long id)
     {
         this.id = id;
@@ -84,34 +69,24 @@ public class CUST_POI implements AuditLoggable{
     {
         return id;
     }
-    public void setValue(String value)
+    public void setUserName(String userName)
     {
-        this.value = value;
+        this.userName = userName;
     }
 
-    public String getValue()
+    public String getUserName()
     {
-        return value;
+        return userName;
     }
 
-    public void setStart(Date start)
+    public void setPassword(String password)
     {
-        this.start = start;
+        this.password = password;
     }
 
-    public Date getStart()
+    public String getPassword()
     {
-        return start;
-    }
-
-    public void setEnd(Date end)
-    {
-        this.end = end;
-    }
-
-    public Date getEnd()
-    {
-        return end;
+        return password;
     }
 
     public Date getEfctv_date() {

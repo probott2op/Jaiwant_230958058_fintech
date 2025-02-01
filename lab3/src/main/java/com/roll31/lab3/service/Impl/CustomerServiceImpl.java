@@ -13,6 +13,7 @@ import com.roll31.lab3.DAO.CustomerIdRepository;
 import com.roll31.lab3.DAO.CustomerNameRepository;
 import com.roll31.lab3.DAO.CustomerPoiRepository;
 import com.roll31.lab3.DTO.CustomerDetailsDTO;
+import com.roll31.lab3.DTO.CustomerPoiDTO;
 import com.roll31.lab3.DTO.TypeValue;
 import com.roll31.lab3.entity.CUST_ADDRESS;
 import com.roll31.lab3.entity.CUST_CL;
@@ -61,10 +62,10 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
-    public CUST_POI addCust_POI(Long id, TypeValue poiTypeValue)
+    public CUST_POI addCust_POI(Long id, CustomerPoiDTO customerPoiDTO)
     {
         Optional<CUST_DETAILS> cust_DETAILS =  customerDetailsRepository.findById(id);
-        CUST_POI cust_POI = customerServiceHelper.generateCust_POI(cust_DETAILS, poiTypeValue);
+        CUST_POI cust_POI = customerServiceHelper.generateCust_POI(cust_DETAILS, customerPoiDTO);
         customerPoiRepository.save(cust_POI);
         return cust_POI;
     }
