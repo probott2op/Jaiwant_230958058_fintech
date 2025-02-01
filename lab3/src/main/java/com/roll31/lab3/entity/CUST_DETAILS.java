@@ -13,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -25,16 +26,14 @@ public class CUST_DETAILS implements AuditLoggable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CST_ID")
     private Long id;
-    @Column(name = "CSTDET_TYPE")
-    private String type;
     @Column(name = "CSTDET_FULL_NAME")
     private String fullName;
     @Column(name = "CSTDET_DOB")
     private Date dob;
     @Column(name = "CSTDET_STATUS")
     private String status;
-    @Column(name = "CSTDET_CONTACT")
-    private String contact;
+    /*@Column(name = "CSTDET_CONTACT")
+    private String contact;*/
     @Column(name = "CSTDET_MOBILE")
     private String mobile;
     @Column(name = "CSTDET_EMAIL")
@@ -60,6 +59,10 @@ public class CUST_DETAILS implements AuditLoggable{
     @Column(name = "CSTDET_ACPT_TS_UTC_OFST")
     private Timestamp acpt_ts_utc_ofst;
 
+    @ManyToOne
+    @JoinColumn(name = "CSTDET_TYPE")
+    private CUST_CL type;
+
     /*@OneToMany
     @JoinColumn(name = "fk_CST_ID", referencedColumnName = "CST_ID")
     private List<CUST_NAME> cust_NAME;
@@ -84,11 +87,11 @@ public class CUST_DETAILS implements AuditLoggable{
         this.id = id;
     }
 
-    public String getType() {
+    public CUST_CL getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(CUST_CL type) {
         this.type = type;
     }
 
@@ -118,13 +121,13 @@ public class CUST_DETAILS implements AuditLoggable{
         this.status = status;
     }
 
-    public String getContact() {
+    /*public String getContact() {
         return contact;
     }
 
     public void setContact(String contact) {
         this.contact = contact;
-    }
+    }*/
 
     public String getMobile() {
         return mobile;

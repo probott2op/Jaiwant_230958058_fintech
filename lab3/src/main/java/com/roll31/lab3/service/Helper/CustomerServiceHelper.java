@@ -4,16 +4,22 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.roll31.lab3.DAO.CustomerClassificationRepository;
 import com.roll31.lab3.DTO.CustomerDetailsDTO;
-import com.roll31.lab3.DTO.NameTypeValue;
+import com.roll31.lab3.DTO.CustomerPoiDTO;
+import com.roll31.lab3.DTO.TypeValue;
 import com.roll31.lab3.entity.AuditLoggable;
+import com.roll31.lab3.entity.CUST_ADDRESS;
 import com.roll31.lab3.entity.CUST_CL;
 import com.roll31.lab3.entity.CUST_DETAILS;
+import com.roll31.lab3.entity.CUST_ID;
 import com.roll31.lab3.entity.CUST_NAME;
+import com.roll31.lab3.entity.CUST_POI;
 
 // One major improvement I want to do here is that,
 // When you give first name , last name in Type value
@@ -21,14 +27,19 @@ import com.roll31.lab3.entity.CUST_NAME;
 // cls Id from there
 // Also I want to rename NameTypeValue to TypeValue since it
 // is being reused
+
 @Component
 public class CustomerServiceHelper {
+    @Autowired
+    CustomerClassificationRepository customerClassificationRepository;
+
     public CUST_DETAILS generateCust_DETAILS(CustomerDetailsDTO customerDetailsDTO)
     {
         CUST_DETAILS cust_DETAILS = new CUST_DETAILS();
 
-        // transferring the type from DTO to Entity object
-        cust_DETAILS.setType(customerDetailsDTO.getType());
+        // transferring the type from DTO to Entity object by getting Id from CUST_CL
+        CUST_CL typeCl = customerClassificationRepository.findByType(customerDetailsDTO.getType());
+        cust_DETAILS.setType(typeCl);
         // transferring dob
         cust_DETAILS.setDob(customerDetailsDTO.getDob());
         // transferring status
@@ -36,17 +47,24 @@ public class CustomerServiceHelper {
         // transferring mobile
         cust_DETAILS.setMobile(customerDetailsDTO.getMobile());
         // transferring contact
-        cust_DETAILS.setContact(customerDetailsDTO.getContact());
+        // cust_DETAILS.setContact(customerDetailsDTO.getContact());
         // transferring email
         cust_DETAILS.setEmail(customerDetailsDTO.getEmail());
         // transferring country
-        cust_DETAILS.setCountry(customerDetailsDTO.getCountry());
+        List<TypeValue> address = customerDetailsDTO.getCustomerFullAddress();
+        for (TypeValue territory: address)
+        {
+            if (territory.getType().toLowerCase().equals("country"))
+            {
+                cust_DETAILS.setCountry(territory.getValue());
+            }
+        }
         // transferring the name
         StringBuilder fullNameBuilder = new StringBuilder();
-        List<NameTypeValue> nameParts = customerDetailsDTO.getCustomerFullName();
-        for (NameTypeValue namePart: nameParts)
+        List<TypeValue> nameParts = customerDetailsDTO.getCustomerFullName();
+        for (TypeValue namePart: nameParts)
         {
-            fullNameBuilder.append(namePart.getNameValue());
+            fullNameBuilder.append(namePart.getValue());
             fullNameBuilder.append(" ");
         }
         String fullName = fullNameBuilder.toString().trim();
@@ -65,26 +83,28 @@ public class CustomerServiceHelper {
         // returning the now filled CUST_DETAILS entity object
         return cust_DETAILS;
     }
-    public CUST_CL generateCust_CL(NameTypeValue nameTypeValue)
+    public CUST_CL generateCust_CL(TypeValue nameTypeValue)
     {
         CUST_CL cust_CL = new CUST_CL();
 
         // transferring the type from DTO to Entity object
         // Setting the classification type
-        cust_CL.setType(nameTypeValue.getNameType());
+        cust_CL.setType(nameTypeValue.getType());
         // setting the classification value
-        cust_CL.setTypeValue(nameTypeValue.getNameValue());
+        cust_CL.setTypeValue(nameTypeValue.getValue());
+        cust_CL.setCrud_value('C');
         setAuditLog(cust_CL);
         return cust_CL;
     }
 
-    // when given the List of name parts it creates a List of CUST_NAME objects
-    public CUST_NAME generateCust_NAME(CUST_DETAILS cust_DETAILS, NameTypeValue namePart)
+    // when given the name type and value pair it creates the CUST_NAME object
+    public CUST_NAME generateCust_NAME(CUST_DETAILS cust_DETAILS, TypeValue namePart)
     {
         CUST_NAME cust_NAME = new CUST_NAME();
-        // Setting the type and value
-        cust_NAME.setType(namePart.getNameType());
-        cust_NAME.setValue(namePart.getNameValue());
+        // Setting the type and value, which is many to one
+        CUST_CL cust_CL = customerClassificationRepository.findByType(namePart.getType());
+        cust_NAME.setCust_CL(cust_CL);
+        cust_NAME.setValue(namePart.getValue());
         // setting the relationship , which is many to one
         cust_NAME.setCust_DETAILS(cust_DETAILS);
         // setting CRUD value
@@ -92,6 +112,81 @@ public class CustomerServiceHelper {
         // setting audit log
         setAuditLog(cust_NAME);
         return cust_NAME;
+    }
+
+    // when given the address type and value pair it creates the CUST_ADDRESS object
+    public CUST_ADDRESS generateCust_ADDRESS(Optional<CUST_DETAILS> cust_DETAILS, TypeValue territory)
+    {
+        CUST_ADDRESS cust_ADDRESS = new CUST_ADDRESS();
+        // get the classification Id for the type of address
+        CUST_CL cust_CL = customerClassificationRepository.findByType(territory.getType());
+        cust_ADDRESS.setCust_CL(cust_CL);
+        // setting the customer whose address it is
+        if (cust_DETAILS.isPresent())
+        {
+            cust_ADDRESS.setCust_DETAILS(cust_DETAILS.get());
+        }
+        else
+        {
+            //throw new Exception("Id doesnt exist");
+        }
+        // setting the actual address value
+        cust_ADDRESS.setValue(territory.getValue());
+        cust_ADDRESS.setCrud_value('C');
+        // setting audit log
+        setAuditLog(cust_ADDRESS);
+        return cust_ADDRESS;
+    }
+
+     // when given the Identification type and value pair it creates the CUST_ID object
+     public CUST_ID generateCust_ID(Optional<CUST_DETAILS> cust_DETAILS, TypeValue IdTypeValue)
+     {
+         CUST_ID cust_ID = new CUST_ID();
+         // get the classification Id for the type of ID
+         CUST_CL cust_CL = customerClassificationRepository.findByType(IdTypeValue.getType());
+         cust_ID.setCust_CL(cust_CL);
+         // setting the customer whose ID it is
+         if (cust_DETAILS.isPresent())
+         {
+            cust_ID.setCust_DETAILS(cust_DETAILS.get());
+         }
+         else
+         {
+            //throw new Exception("Id doesnt exist");
+         }
+         // setting the actual ID value
+         cust_ID.setValue(IdTypeValue.getValue());
+         cust_ID.setCrud_value('C');
+         // setting audit log
+         setAuditLog(cust_ID);
+         return cust_ID;
+     }
+
+    // when given the POI type and value pair it creates the CUST_POI object
+    public CUST_POI generateCust_POI(Optional<CUST_DETAILS> cust_DETAILS, CustomerPoiDTO customerPoiDTO)
+    {
+        CUST_POI cust_POI = new CUST_POI();
+        // get the classification Id for the type of address
+        CUST_CL cust_CL = customerClassificationRepository.findByType(customerPoiDTO.getType());
+        cust_POI.setCust_CL(cust_CL);
+        // set the actual POI value
+        cust_POI.setValue(customerPoiDTO.getValue());
+        // setting the customer whose address it is
+        if (cust_DETAILS.isPresent())
+        {
+            cust_POI.setCust_DETAILS(cust_DETAILS.get());
+        }
+        else
+        {
+            //throw new Exception("Id doesnt exist");
+        }
+        // set start and end date of the id
+        cust_POI.setStart(customerPoiDTO.getStart());
+        cust_POI.setEnd(customerPoiDTO.getEnd());
+        cust_POI.setCrud_value('C');
+        // setting the audit log
+        setAuditLog(cust_POI);
+        return cust_POI;
     }
 
     // sets the audit logs(for all since they implement the interface)

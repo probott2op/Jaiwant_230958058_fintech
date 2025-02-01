@@ -22,9 +22,10 @@ import jakarta.persistence.Table;
 public class CUST_NAME implements AuditLoggable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "CSTNAME_IDFR")
     private Long id;
-    @Column(name = "CSTNAME_TYPE")
-    private String type;
+    /*@Column(name = "CSTNAME_TYPE")
+    private String type;*/
     @Column(name = "CSTNAME_VALUE")
     private String value;
     @Column(name = "CSTDET_EFCTV_DATE")
@@ -49,9 +50,9 @@ public class CUST_NAME implements AuditLoggable{
     @ManyToOne
     @JoinColumn(name = "CST_ID")
     private CUST_DETAILS cust_DETAILS;
-    /*@ManyToOne
-    @JoinColumn(name = "CSTCL_ID")
-    private CUST_CL cust_CL;*/
+    @ManyToOne
+    @JoinColumn(name = "CSTNAME_CLS_ID")
+    private CUST_CL cust_CL;
 
     public void setCust_DETAILS(CUST_DETAILS cust_DETAILS)
     {
@@ -63,7 +64,7 @@ public class CUST_NAME implements AuditLoggable{
         return cust_DETAILS;
     }
 
-    /*public CUST_CL getCust_CL()
+    public CUST_CL getCust_CL()
     {
         return cust_CL;
     }
@@ -71,15 +72,15 @@ public class CUST_NAME implements AuditLoggable{
     public void setCust_CL(CUST_CL cust_CL)
     {
         this.cust_CL = cust_CL;
-    }*/
+    }
 
-    public String getType() {
+    /*public String getType() {
         return type;
     }
 
     public void setType(String type) {
         this.type = type;
-    }
+    }*/
 
     public Long getId() {
         return id;

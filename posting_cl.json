@@ -1,0 +1,72 @@
+{
+    "type": "address",
+    "value": "building"
+}
+{
+    "type": "address",
+    "value": "street"
+}
+{
+    "type": "address",
+    "value": "city"
+}
+{
+    "type": "address",
+    "value": "district"
+}
+{
+    "type": "address",
+    "value": "state"
+}
+{
+    "type": "address",
+    "value": "pincode"
+}
+{
+    "type": "address",
+    "value": "country"
+}
+{
+    "type": "name",
+    "value": "firstName"
+}
+{
+    "type": "name",
+    "value": "middleName"
+}
+{
+    "type": "name",
+    "value": "lastName"
+}
+{
+    "type": "type_of_cust",
+    "value": "individual"
+}
+{
+    "type": "type_of_cust",
+    "value": "corporate"
+}
+{
+    "type": "type_of_cust",
+    "value": "institutional"
+}
+{
+    "type": "proof_of_Identity",
+    "value": "aadhaar"
+}
+{
+    "type": "proof_of_Identity",
+    "value": "passport"
+}
+{
+    "type": "proof_of_Identity",
+    "value": "drivingLicense"
+}
+{
+    "type": "identification",
+    "value": "mobile"
+}
+{
+    "type": "identification",
+    "value": "email"
+}
