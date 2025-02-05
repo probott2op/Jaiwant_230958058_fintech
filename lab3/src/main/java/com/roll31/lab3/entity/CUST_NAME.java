@@ -46,7 +46,12 @@ public class CUST_NAME implements AuditLoggable{
     private Timestamp acpt_ts;
     @Column(name = "CSTNAME_ACPT_TS_UTC_OFST")
     private Timestamp acpt_ts_utc_ofst;
+    @Column(name = "CSTNAME_UUID")
+    private String UUID;
 
+   @Column(name = "LDBID")
+   @ManyToOne
+   private FIN_INSTITUTIONS ldbid;
     @ManyToOne
     @JoinColumn(name = "CST_ID")
     private CUST_DETAILS cust_DETAILS;
@@ -170,6 +175,22 @@ public class CUST_NAME implements AuditLoggable{
 
     public void setAcpt_ts_utc_ofst(Timestamp acpt_ts_utc_ofst) {
         this.acpt_ts_utc_ofst = acpt_ts_utc_ofst;
+    }
+
+    public FIN_INSTITUTIONS getLdbid() {
+        return ldbid;
+    }
+    
+    public void setLdbid(FIN_INSTITUTIONS ldbid) {
+        this.ldbid = ldbid;
+    }
+
+    public String getUUID() {
+        return UUID;
+    }
+
+    public void setUUID(String UUID) {
+        this.UUID = UUID;
     }
 }
 

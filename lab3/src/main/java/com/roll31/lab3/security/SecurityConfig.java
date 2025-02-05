@@ -12,6 +12,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
@@ -27,12 +28,16 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception
     {
         http.csrf(customizer -> customizer.disable());
-        http.authorizeRequests(request -> request.anyRequest().authenticated());
+        http.authorizeHttpRequests(customizer -> {
+                                    customizer.requestMatchers("/login").permitAll();
+                                    customizer.requestMatchers("/register").permitAll();
+                                    customizer.anyRequest().authenticated();
+                                    }
+                                );
+        // http.authorizeRequests(request -> request.anyRequest().authenticated());
         // http.formLogin(Customizer.withDefaults());
         http.httpBasic(Customizer.withDefaults());
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
-
         return http.build();
     }
 
@@ -52,9 +57,12 @@ public class SecurityConfig {
     public AuthenticationProvider authenticationProvider()
     {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
+        provider.setPasswordEncoder(new BCryptPasswordEncoder(12));
         provider.setUserDetailsService(userDetailsService);
         return provider;
     }
+    // springboot requires an object of Authentication Provider, which we are preparing above
+    // SInce we are using db we use the Dao one
+    // also for the Authentication provider we set a service for userDetails
 } 
  

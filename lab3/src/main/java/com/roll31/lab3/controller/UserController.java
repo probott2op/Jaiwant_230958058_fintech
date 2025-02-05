@@ -8,6 +8,7 @@ import com.roll31.lab3.entity.CUST_CL;
 import com.roll31.lab3.entity.CUST_DETAILS;
 import com.roll31.lab3.entity.CUST_ID;
 import com.roll31.lab3.entity.CUST_POI;
+import com.roll31.lab3.entity.CUST_SIGNIN;
 import com.roll31.lab3.entity.User;
 import com.roll31.lab3.service.CustomerService;
 import com.roll31.lab3.service.UserService;
@@ -17,22 +18,23 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/v1/users")
 public class UserController {
-    @Autowired
-    private UserService userService;
+   /*  @Autowired
+    private UserService userService; */
     @Autowired
     private CustomerService customerService;
 
-    @GetMapping("/getUsers")
+    /* @GetMapping("/getUsers")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
     @PostMapping("/addUser")
     public User createUser(@RequestBody User user) {
         return userService.saveUser(user);
-    }
-    @PostMapping("/addCustomerDetails")
+    } */
+
+    @PostMapping("/register")
     public CUST_DETAILS createCustomer(@RequestBody CustomerDetailsDTO customerDetailDTO)
     {
        CUST_DETAILS cust_DETAILS = customerService.addCustomerDetails(customerDetailDTO);
@@ -63,5 +65,12 @@ public class UserController {
     {
         CUST_ADDRESS cust_ADDRESS = customerService.addCust_Address(id, AddresstypeValue);
         return cust_ADDRESS;
+    }
+
+    @PostMapping("/register/{id}")
+    public CUST_SIGNIN createCust_SIGNIN(@PathVariable("id") Long id,@RequestBody TypeValue userPassTypeValue)
+    {
+        CUST_SIGNIN cust_SIGNIN = customerService.addSignIn(id, userPassTypeValue);
+        return cust_SIGNIN;
     }
 }

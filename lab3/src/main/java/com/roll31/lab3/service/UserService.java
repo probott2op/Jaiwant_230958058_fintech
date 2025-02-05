@@ -1,9 +1,13 @@
 package com.roll31.lab3.service;
 
 import java.util.List;
+import java.util.Optional;
 
+import com.roll31.lab3.DAO.CustomerDetailsRepository;
 import com.roll31.lab3.DAO.CustomerSignInRepository;
 import com.roll31.lab3.DAO.UserRepository;
+import com.roll31.lab3.DTO.TypeValue;
+import com.roll31.lab3.entity.CUST_DETAILS;
 import com.roll31.lab3.entity.CUST_SIGNIN;
 import com.roll31.lab3.entity.User;
 

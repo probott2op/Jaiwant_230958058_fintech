@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.roll31.lab3.DAO.CustomerClassificationRepository;
+import com.roll31.lab3.DAO.CustomerDetailsRepository;
 import com.roll31.lab3.DTO.CustomerDetailsDTO;
 import com.roll31.lab3.DTO.CustomerPoiDTO;
 import com.roll31.lab3.DTO.TypeValue;
@@ -20,6 +21,7 @@ import com.roll31.lab3.entity.CUST_DETAILS;
 import com.roll31.lab3.entity.CUST_ID;
 import com.roll31.lab3.entity.CUST_NAME;
 import com.roll31.lab3.entity.CUST_POI;
+import com.roll31.lab3.entity.CUST_SIGNIN;
 
 // One major improvement I want to do here is that,
 // When you give first name , last name in Type value

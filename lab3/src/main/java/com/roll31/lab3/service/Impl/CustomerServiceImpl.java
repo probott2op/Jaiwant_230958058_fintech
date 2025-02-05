@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.roll31.lab3.DAO.CustomerAddressRepository;
@@ -21,6 +22,7 @@ import com.roll31.lab3.entity.CUST_DETAILS;
 import com.roll31.lab3.entity.CUST_ID;
 import com.roll31.lab3.entity.CUST_NAME;
 import com.roll31.lab3.entity.CUST_POI;
+import com.roll31.lab3.entity.CUST_SIGNIN;
 import com.roll31.lab3.service.CustomerService;
 import com.roll31.lab3.service.Helper.CustomerServiceHelper;
 
@@ -86,6 +88,23 @@ public class CustomerServiceImpl implements CustomerService{
         CUST_ADDRESS cust_ADDRESS = customerServiceHelper.generateCust_ADDRESS(cust_DETAILS, AddressTypeValue);
         customerAddressRepository.save(cust_ADDRESS);
         return cust_ADDRESS;
+    }
+
+    @Override
+    public CUST_SIGNIN addSignIn(Long id, TypeValue userPassTypeValue)
+    {
+        Optional<CUST_DETAILS> cust_DETAILS = customerDetailsRepository.findById(id);
+        if (cust_DETAILS.isPresent())
+        {
+            CUST_SIGNIN cust_SIGNIN = new CUST_SIGNIN();
+            cust_SIGNIN.setCust_DETAILS(cust_DETAILS.get());
+            final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+            cust_SIGNIN.setPassword(encoder.encode(userPassTypeValue.getValue()));
+            cust_SIGNIN.setUserName(userPassTypeValue.getType());
+            customerServiceHelper.setAuditLog(cust_SIGNIN);
+            return cust_SIGNIN;
+        }
+        return null;
     }
 
     public void addId(CUST_DETAILS cust_DETAILS)

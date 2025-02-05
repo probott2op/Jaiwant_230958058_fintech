@@ -24,6 +24,8 @@ import jakarta.persistence.Table;
 public class CUST_DETAILS implements AuditLoggable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "CSTDET_IDFR")
+    private Long idfr;
     @Column(name = "CST_ID")
     private Long id;
     @Column(name = "CSTDET_FULL_NAME")
@@ -58,6 +60,12 @@ public class CUST_DETAILS implements AuditLoggable{
     private Timestamp acpt_ts;
     @Column(name = "CSTDET_ACPT_TS_UTC_OFST")
     private Timestamp acpt_ts_utc_ofst;
+    @Column(name = "CSTDET_UUID")
+    private String UUID;
+    
+    @Column(name = "LDBID")
+    @ManyToOne
+    private FIN_INSTITUTIONS ldbid;
 
     @ManyToOne
     @JoinColumn(name = "CSTDET_TYPE")
@@ -78,6 +86,14 @@ public class CUST_DETAILS implements AuditLoggable{
     {
         return cust_NAME;
     }*/
+
+    public Long getIdfr() {
+        return idfr;
+    }
+
+    public void setIdfr(Long idfr) {
+        this.idfr = idfr;
+    }
 
     public Long getId() {
         return id;
@@ -223,6 +239,22 @@ public class CUST_DETAILS implements AuditLoggable{
 
     public void setAcpt_ts_utc_ofst(Timestamp acpt_ts_utc_ofst) {
         this.acpt_ts_utc_ofst = acpt_ts_utc_ofst;
+    }
+
+    public String getUUID() {
+        return UUID;
+    }
+
+    public void setUUID(String UUID) {
+        this.UUID = UUID;
+    }
+
+    public FIN_INSTITUTIONS getLdbid() {
+        return ldbid;
+    }
+
+    public void setLdbid(FIN_INSTITUTIONS ldbid) {
+        this.ldbid = ldbid;
     }
 }
 
