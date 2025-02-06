@@ -13,6 +13,8 @@ import com.roll31.lab3.DAO.CustomerDetailsRepository;
 import com.roll31.lab3.DAO.CustomerIdRepository;
 import com.roll31.lab3.DAO.CustomerNameRepository;
 import com.roll31.lab3.DAO.CustomerPoiRepository;
+import com.roll31.lab3.DAO.CustomerSignInRepository;
+import com.roll31.lab3.DAO.FinancialInstitutionRepository;
 import com.roll31.lab3.DTO.CustomerDetailsDTO;
 import com.roll31.lab3.DTO.CustomerPoiDTO;
 import com.roll31.lab3.DTO.TypeValue;
@@ -23,10 +25,14 @@ import com.roll31.lab3.entity.CUST_ID;
 import com.roll31.lab3.entity.CUST_NAME;
 import com.roll31.lab3.entity.CUST_POI;
 import com.roll31.lab3.entity.CUST_SIGNIN;
+import com.roll31.lab3.entity.FIN_INSTITUTIONS;
 import com.roll31.lab3.service.CustomerService;
 import com.roll31.lab3.service.Helper.CustomerServiceHelper;
 
+import jakarta.transaction.Transactional;
+
 @Service
+@Transactional
 public class CustomerServiceImpl implements CustomerService{
 
     @Autowired
@@ -43,6 +49,10 @@ public class CustomerServiceImpl implements CustomerService{
     CustomerPoiRepository customerPoiRepository;
     @Autowired
     CustomerIdRepository customerIdRepository;
+    @Autowired
+    FinancialInstitutionRepository financialInstitutionRepository;
+    @Autowired
+    CustomerSignInRepository customerSignInRepository;
 
     @Override
     public CUST_DETAILS addCustomerDetails(CustomerDetailsDTO customerDetailsDTO)
@@ -93,18 +103,34 @@ public class CustomerServiceImpl implements CustomerService{
     @Override
     public CUST_SIGNIN addSignIn(Long id, TypeValue userPassTypeValue)
     {
-        Optional<CUST_DETAILS> cust_DETAILS = customerDetailsRepository.findById(id);
+        Optional<CUST_DETAILS> cust_DETAILS = Optional.of(customerDetailsRepository.findCustomerRecord(id));
         if (cust_DETAILS.isPresent())
         {
             CUST_SIGNIN cust_SIGNIN = new CUST_SIGNIN();
             cust_SIGNIN.setCust_DETAILS(cust_DETAILS.get());
+            cust_SIGNIN.setLdbid(cust_DETAILS.get().getLdbid());
             final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
             cust_SIGNIN.setPassword(encoder.encode(userPassTypeValue.getValue()));
             cust_SIGNIN.setUserName(userPassTypeValue.getType());
+            cust_SIGNIN.setRole("USER");
+            cust_SIGNIN.setCrud_value('C');
             customerServiceHelper.setAuditLog(cust_SIGNIN);
+            customerSignInRepository.save(cust_SIGNIN);
             return cust_SIGNIN;
         }
         return null;
+    }
+
+    @Override
+    public FIN_INSTITUTIONS addFinInstitution(TypeValue FinInstitutionTypeValue)
+    {
+        FIN_INSTITUTIONS fin_INSTITUTIONS = new FIN_INSTITUTIONS();
+        fin_INSTITUTIONS.setType(FinInstitutionTypeValue.getType());
+        fin_INSTITUTIONS.setName(FinInstitutionTypeValue.getValue());
+        fin_INSTITUTIONS.setCrud_value('C');
+        customerServiceHelper.setAuditLog(fin_INSTITUTIONS);
+        financialInstitutionRepository.save(fin_INSTITUTIONS);
+        return fin_INSTITUTIONS;
     }
 
     public void addId(CUST_DETAILS cust_DETAILS)

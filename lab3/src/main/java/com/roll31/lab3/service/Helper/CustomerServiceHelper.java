@@ -2,15 +2,18 @@ package com.roll31.lab3.service.Helper;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.roll31.lab3.DAO.CustomerClassificationRepository;
 import com.roll31.lab3.DAO.CustomerDetailsRepository;
+import com.roll31.lab3.DAO.FinancialInstitutionRepository;
 import com.roll31.lab3.DTO.CustomerDetailsDTO;
 import com.roll31.lab3.DTO.CustomerPoiDTO;
 import com.roll31.lab3.DTO.TypeValue;
@@ -22,6 +25,7 @@ import com.roll31.lab3.entity.CUST_ID;
 import com.roll31.lab3.entity.CUST_NAME;
 import com.roll31.lab3.entity.CUST_POI;
 import com.roll31.lab3.entity.CUST_SIGNIN;
+import com.roll31.lab3.entity.FIN_INSTITUTIONS;
 
 // One major improvement I want to do here is that,
 // When you give first name , last name in Type value
@@ -34,10 +38,24 @@ import com.roll31.lab3.entity.CUST_SIGNIN;
 public class CustomerServiceHelper {
     @Autowired
     CustomerClassificationRepository customerClassificationRepository;
+    @Autowired
+    CustomerDetailsRepository customerDetailsRepository;
+    @Autowired
+    FinancialInstitutionRepository financialInstitutionRepository;
 
     public CUST_DETAILS generateCust_DETAILS(CustomerDetailsDTO customerDetailsDTO)
     {
         CUST_DETAILS cust_DETAILS = new CUST_DETAILS();
+
+        // Generating the id for the new customer;
+        Long max_id = customerDetailsRepository.findMaxCustId();
+        if (max_id == null)
+        {
+            max_id = Long.valueOf(1);
+        }
+        Long year = Long.valueOf(LocalDate.now().getYear());
+        Long cust_id = (year % 1000)*100000 + max_id;
+        cust_DETAILS.setId(cust_id);
 
         // transferring the type from DTO to Entity object by getting Id from CUST_CL
         CUST_CL typeCl = customerClassificationRepository.findByType(customerDetailsDTO.getType());
@@ -54,6 +72,17 @@ public class CustomerServiceHelper {
         cust_DETAILS.setEmail(customerDetailsDTO.getEmail());
         // transferring country
         List<TypeValue> address = customerDetailsDTO.getCustomerFullAddress();
+        // giving the ldbid
+        FIN_INSTITUTIONS fin_inst = financialInstitutionRepository.findIdByName(customerDetailsDTO.getBankName());
+        if (fin_inst != null)
+        {
+            cust_DETAILS.setLdbid(fin_inst);
+        }
+        else
+        {
+            System.out.print(customerDetailsDTO.getBankName());
+            System.out.println("Some error!");
+        }
         for (TypeValue territory: address)
         {
             if (territory.getType().toLowerCase().equals("country"))
@@ -111,6 +140,10 @@ public class CustomerServiceHelper {
         cust_NAME.setCust_DETAILS(cust_DETAILS);
         // setting CRUD value
         cust_NAME.setCrud_value('C');
+        // setting the foreign key to the cust_details object
+        cust_NAME.setCust_DETAILS(cust_DETAILS);
+        // setting the ldbid
+        cust_NAME.setLdbid(cust_DETAILS.getLdbid());
         // setting audit log
         setAuditLog(cust_NAME);
         return cust_NAME;
@@ -127,6 +160,8 @@ public class CustomerServiceHelper {
         if (cust_DETAILS.isPresent())
         {
             cust_ADDRESS.setCust_DETAILS(cust_DETAILS.get());
+            // setting LDBID
+            cust_ADDRESS.setLdbid(cust_DETAILS.get().getLdbid());
         }
         else
         {
@@ -151,6 +186,8 @@ public class CustomerServiceHelper {
          if (cust_DETAILS.isPresent())
          {
             cust_ID.setCust_DETAILS(cust_DETAILS.get());
+            // setting the ldbid
+            cust_ID.setLdbid(cust_DETAILS.get().getLdbid());
          }
          else
          {
@@ -202,5 +239,6 @@ public class CustomerServiceHelper {
         cust_DETAILS.setWs_id("Mac Jaiwant");
         cust_DETAILS.setUser_id("Jaiwant");
         cust_DETAILS.setPrgm_id("Java prgm 1");
+        cust_DETAILS.setUUID(UUID.randomUUID().toString());
     }
 }

@@ -51,7 +51,7 @@ public class CUST_POI implements AuditLoggable{
     @Column(name = "CSTPOI_UUID")
     private String UUID;
 
-   @Column(name = "LDBID")
+   @JoinColumn(name = "LDBID")
    @ManyToOne
    private FIN_INSTITUTIONS ldbid;
     @ManyToOne

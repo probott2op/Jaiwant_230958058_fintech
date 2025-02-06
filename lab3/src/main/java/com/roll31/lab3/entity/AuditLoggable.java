@@ -12,4 +12,5 @@ public interface AuditLoggable {
     void setWs_id(String wsId);
     void setUser_id(String userId);
     void setPrgm_id(String prgmId);
+    void setUUID(String UUID);
 }

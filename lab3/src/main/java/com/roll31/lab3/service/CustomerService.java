@@ -10,6 +10,7 @@ import com.roll31.lab3.entity.CUST_DETAILS;
 import com.roll31.lab3.entity.CUST_ID;
 import com.roll31.lab3.entity.CUST_POI;
 import com.roll31.lab3.entity.CUST_SIGNIN;
+import com.roll31.lab3.entity.FIN_INSTITUTIONS;
 
 public interface CustomerService {
     CUST_DETAILS addCustomerDetails(CustomerDetailsDTO customerDetailsDTO);
@@ -18,4 +19,5 @@ public interface CustomerService {
     CUST_ID addCust_ID(Long id, TypeValue IdTypeValue);
     CUST_ADDRESS addCust_Address(Long id, TypeValue AddressTypeValue);
     CUST_SIGNIN addSignIn(Long id, TypeValue userPassTypeValue);
+    FIN_INSTITUTIONS addFinInstitution(TypeValue FinInstitutionTypeValue);
 }

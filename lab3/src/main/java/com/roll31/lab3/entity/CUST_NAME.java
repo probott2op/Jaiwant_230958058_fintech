@@ -28,7 +28,7 @@ public class CUST_NAME implements AuditLoggable{
     private String type;*/
     @Column(name = "CSTNAME_VALUE")
     private String value;
-    @Column(name = "CSTDET_EFCTV_DATE")
+    @Column(name = "CSTNAME_EFCTV_DATE")
     private Date efctv_date;
     @Column(name = "CSTNAME_CRUD_VALUE")
     private char crud_value;
@@ -49,7 +49,7 @@ public class CUST_NAME implements AuditLoggable{
     @Column(name = "CSTNAME_UUID")
     private String UUID;
 
-   @Column(name = "LDBID")
+   @JoinColumn(name = "LDBID")
    @ManyToOne
    private FIN_INSTITUTIONS ldbid;
     @ManyToOne

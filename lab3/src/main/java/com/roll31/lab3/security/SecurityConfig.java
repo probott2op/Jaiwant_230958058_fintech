@@ -3,6 +3,7 @@
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
@@ -29,15 +30,13 @@ public class SecurityConfig {
     {
         http.csrf(customizer -> customizer.disable());
         http.authorizeHttpRequests(customizer -> {
-                                    customizer.requestMatchers("/login").permitAll();
-                                    customizer.requestMatchers("/register").permitAll();
                                     customizer.anyRequest().authenticated();
                                     }
                                 );
         // http.authorizeRequests(request -> request.anyRequest().authenticated());
-        // http.formLogin(Customizer.withDefaults());
+        http.formLogin(Customizer.withDefaults());
         http.httpBasic(Customizer.withDefaults());
-        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        // http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }
 

@@ -10,6 +10,8 @@ public class CustomerDetailsDTO {
     private String status;
     private String mobile;
     private String email;
+    private String bankName;
+
     private List<TypeValue> customerFullAddress;
 
     //Getters and setters
@@ -71,4 +73,13 @@ public class CustomerDetailsDTO {
     public void setCustomerFullAddress(List<TypeValue> customerFullAddress) {
         this.customerFullAddress = customerFullAddress;
     }
+
+    public String getBankName() {
+        return bankName;
+    }
+
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
+    }
+
 }

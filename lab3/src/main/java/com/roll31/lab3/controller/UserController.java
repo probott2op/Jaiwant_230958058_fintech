@@ -9,6 +9,7 @@ import com.roll31.lab3.entity.CUST_DETAILS;
 import com.roll31.lab3.entity.CUST_ID;
 import com.roll31.lab3.entity.CUST_POI;
 import com.roll31.lab3.entity.CUST_SIGNIN;
+import com.roll31.lab3.entity.FIN_INSTITUTIONS;
 import com.roll31.lab3.entity.User;
 import com.roll31.lab3.service.CustomerService;
 import com.roll31.lab3.service.UserService;
@@ -46,6 +47,14 @@ public class UserController {
         CUST_CL cust_cl = customerService.addClassification(nameTypeValue);
         return cust_cl;
     }
+
+    @PostMapping("/addFinancialInstitution")
+    public FIN_INSTITUTIONS createFin_INSTITUTIONS(@RequestBody TypeValue institutionTypeValue)
+    {
+        FIN_INSTITUTIONS fin_INSTITUTIONS = customerService.addFinInstitution(institutionTypeValue);
+        return fin_INSTITUTIONS;
+    }
+
     @PostMapping("/addPOI/{id}")
     public CUST_POI createCust_POI(@PathVariable("id") Long id, @RequestBody CustomerPoiDTO customerPoiDTO)
     {

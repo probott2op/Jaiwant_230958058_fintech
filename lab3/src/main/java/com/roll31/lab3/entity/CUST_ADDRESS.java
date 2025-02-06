@@ -47,7 +47,7 @@ public class CUST_ADDRESS implements AuditLoggable{
     @Column(name = "CSTADD_UUID")
     private String UUID;
 
-   @Column(name = "LDBID")
+   @JoinColumn(name = "LDBID")
    @ManyToOne
    private FIN_INSTITUTIONS ldbid;
 

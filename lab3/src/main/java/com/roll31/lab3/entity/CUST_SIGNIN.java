@@ -28,6 +28,8 @@ public class CUST_SIGNIN implements AuditLoggable{
     private String userName;
     @Column(name = "CSTSIGN_PASSWORD")
     private String password;
+    @Column(name = "CSTSIGN_ROLE")
+    private String role;
     @Column(name = "CSTSIGN_EFCTV_DATE")
     private Date efctv_date;
     @Column(name = "CSTSIGN_CRUD_VALUE")
@@ -49,7 +51,7 @@ public class CUST_SIGNIN implements AuditLoggable{
     @Column(name = "CSTSIGN_UUID")
     private String UUID;
 
-   @Column(name = "LDBID")
+   @JoinColumn(name = "LDBID")
    @ManyToOne
    private FIN_INSTITUTIONS ldbid;
 
@@ -93,6 +95,14 @@ public class CUST_SIGNIN implements AuditLoggable{
     public String getPassword()
     {
         return password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public Date getEfctv_date() {

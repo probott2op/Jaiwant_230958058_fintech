@@ -44,6 +44,9 @@ public class CUST_CL implements AuditLoggable{
     private Timestamp acpt_ts;
     @Column(name = "CSTCL_ACPT_TS_UTC_OFST")
     private Timestamp acpt_ts_utc_ofst;
+    @Column(name = "CSTCL_UUID")
+    private String UUID;
+
 
     public Long getId() {
         return id;
@@ -141,6 +144,14 @@ public class CUST_CL implements AuditLoggable{
 
     public void setAcpt_ts_utc_ofst(Timestamp acpt_ts_utc_ofst) {
         this.acpt_ts_utc_ofst = acpt_ts_utc_ofst;
+    }
+
+    public String getUUID() {
+        return UUID;
+    }
+
+    public void setUUID(String UUID) {
+        this.UUID = UUID;
     }
 }
 

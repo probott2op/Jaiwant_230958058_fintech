@@ -22,6 +22,8 @@ public class FIN_INSTITUTIONS implements AuditLoggable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "INSTITUTION_ID")
     private Long id;
+    @Column(name = "INSTITUTION_TYPE")
+    private String type;
     @Column(name = "INSTITUTION_NAME")
     private String name;
     @Column(name = "INST_EFCTV_DATE")
@@ -50,6 +52,12 @@ public class FIN_INSTITUTIONS implements AuditLoggable{
     }
     public void setId(Long id) {
         this.id = id;
+    }
+    public String getType() {
+        return type;
+    }
+    public void setType(String type) {
+        this.type = type;
     }
     public String getName() {
         return name;
