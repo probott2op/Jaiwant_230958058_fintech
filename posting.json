@@ -1,5 +1,5 @@
 {
-    "type": "indvidual",
+    "type": "individual",
     "customerFullName": [
         {
             "type":"firstName",
@@ -12,9 +12,9 @@
     ],
     "dob": "2005-09-05",
     "status": "Active",
-    "mobile": "9704065780",
+    "mobile": "9704067580",
     "email": "AravPatel@gmail.com",
-    "BankName": "HDFC",
+    "bankName": "HDFC",
     "customerFullAddress": [
         {
             "type": "building",
@@ -22,7 +22,7 @@
         },
         {
             "type": "street",
-            "value": "dalal street"
+            "value": "washington street"
         },
         {
 
@@ -39,7 +39,7 @@
         },
         {
             "type": "pincode",
-            "value": "120670"
+            "value": "220670"
         },
         {
             "type": "country",

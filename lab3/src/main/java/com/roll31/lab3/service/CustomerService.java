@@ -20,4 +20,5 @@ public interface CustomerService {
     CUST_ADDRESS addCust_Address(Long id, TypeValue AddressTypeValue);
     CUST_SIGNIN addSignIn(Long id, TypeValue userPassTypeValue);
     FIN_INSTITUTIONS addFinInstitution(TypeValue FinInstitutionTypeValue);
+    CUST_DETAILS updateCustomerDetails(Long id, CustomerDetailsDTO customerDetailsDTO);
 }

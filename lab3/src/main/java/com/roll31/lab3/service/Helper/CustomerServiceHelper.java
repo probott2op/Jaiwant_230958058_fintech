@@ -43,19 +43,28 @@ public class CustomerServiceHelper {
     @Autowired
     FinancialInstitutionRepository financialInstitutionRepository;
 
-    public CUST_DETAILS generateCust_DETAILS(CustomerDetailsDTO customerDetailsDTO)
+    public CUST_DETAILS generateCust_DETAILS(Long id, CustomerDetailsDTO customerDetailsDTO)
     {
         CUST_DETAILS cust_DETAILS = new CUST_DETAILS();
 
         // Generating the id for the new customer;
-        Long max_id = customerDetailsRepository.findMaxCustId();
-        if (max_id == null)
+        if (id == null)
         {
-            max_id = Long.valueOf(1);
+            Long max_id = customerDetailsRepository.findMaxCustId();
+            // no record exists in the db, so first record
+            if (max_id == null)
+            {
+                max_id = Long.valueOf(1);
+            }
+            Long year = Long.valueOf(LocalDate.now().getYear());
+            Long cust_id = (year % 1000)*100000 + max_id;
+            cust_DETAILS.setId(cust_id);
         }
-        Long year = Long.valueOf(LocalDate.now().getYear());
-        Long cust_id = (year % 1000)*100000 + max_id;
-        cust_DETAILS.setId(cust_id);
+        // this is for updating the customer
+        else
+        {
+            cust_DETAILS.setId(id);
+        }
 
         // transferring the type from DTO to Entity object by getting Id from CUST_CL
         CUST_CL typeCl = customerClassificationRepository.findByType(customerDetailsDTO.getType());
@@ -100,8 +109,6 @@ public class CustomerServiceHelper {
         }
         String fullName = fullNameBuilder.toString().trim();
         cust_DETAILS.setFullName(fullName);
-        // setting CRUD value
-        cust_DETAILS.setCrud_value('C');
 
         // setting the audit log
         setAuditLog(cust_DETAILS);
@@ -138,8 +145,6 @@ public class CustomerServiceHelper {
         cust_NAME.setValue(namePart.getValue());
         // setting the relationship , which is many to one
         cust_NAME.setCust_DETAILS(cust_DETAILS);
-        // setting CRUD value
-        cust_NAME.setCrud_value('C');
         // setting the foreign key to the cust_details object
         cust_NAME.setCust_DETAILS(cust_DETAILS);
         // setting the ldbid
@@ -169,7 +174,6 @@ public class CustomerServiceHelper {
         }
         // setting the actual address value
         cust_ADDRESS.setValue(territory.getValue());
-        cust_ADDRESS.setCrud_value('C');
         // setting audit log
         setAuditLog(cust_ADDRESS);
         return cust_ADDRESS;
@@ -195,7 +199,6 @@ public class CustomerServiceHelper {
          }
          // setting the actual ID value
          cust_ID.setValue(IdTypeValue.getValue());
-         cust_ID.setCrud_value('C');
          // setting audit log
          setAuditLog(cust_ID);
          return cust_ID;
@@ -222,7 +225,6 @@ public class CustomerServiceHelper {
         // set start and end date of the id
         cust_POI.setStart(customerPoiDTO.getStart());
         cust_POI.setEnd(customerPoiDTO.getEnd());
-        cust_POI.setCrud_value('C');
         // setting the audit log
         setAuditLog(cust_POI);
         return cust_POI;

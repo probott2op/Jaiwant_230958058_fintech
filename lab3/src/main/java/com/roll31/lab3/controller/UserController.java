@@ -35,11 +35,19 @@ public class UserController {
         return userService.saveUser(user);
     } */
 
+    // Sign up page sends this request
     @PostMapping("/register")
     public CUST_DETAILS createCustomer(@RequestBody CustomerDetailsDTO customerDetailDTO)
     {
        CUST_DETAILS cust_DETAILS = customerService.addCustomerDetails(customerDetailDTO);
        return cust_DETAILS;
+    }
+    // update customer details
+    @PutMapping("/updateDetails/{id}")
+    public CUST_DETAILS updateCustomer(@PathVariable("id") Long id, @RequestBody CustomerDetailsDTO customerDetailsDTO)
+    {
+        CUST_DETAILS cust_DETAILS = customerService.updateCustomerDetails(id, customerDetailsDTO);
+        return cust_DETAILS;
     }
     @PostMapping("/addClassification")
     public CUST_CL createClassification(@RequestBody TypeValue nameTypeValue)

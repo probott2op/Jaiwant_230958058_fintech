@@ -57,12 +57,31 @@ public class CustomerServiceImpl implements CustomerService{
     @Override
     public CUST_DETAILS addCustomerDetails(CustomerDetailsDTO customerDetailsDTO)
     {
-        CUST_DETAILS cust_DETAILS = customerServiceHelper.generateCust_DETAILS(customerDetailsDTO);
+        CUST_DETAILS cust_DETAILS = customerServiceHelper.generateCust_DETAILS(null, customerDetailsDTO);
+        cust_DETAILS.setCrud_value('C');
         customerDetailsRepository.save(cust_DETAILS);
         addName(cust_DETAILS, customerDetailsDTO.getCustomerFullName());
         addId(cust_DETAILS);
         addAddress(cust_DETAILS, customerDetailsDTO.getCustomerFullAddress());
         return cust_DETAILS;
+    }
+
+    @Override
+    public CUST_DETAILS updateCustomerDetails(Long id, CustomerDetailsDTO customerDetailsDTO)
+    {
+        CUST_DETAILS cust_DETAILS = customerDetailsRepository.findCustomerRecord(id);
+        if (cust_DETAILS == null)
+        {
+            System.out.println("User doesnt exist");
+            return null;
+        }
+        CUST_DETAILS updatedCust_DETAILS = customerServiceHelper.generateCust_DETAILS(id, customerDetailsDTO);
+        updatedCust_DETAILS.setCrud_value('U');
+        customerDetailsRepository.save(updatedCust_DETAILS);
+        updateName(cust_DETAILS, customerDetailsDTO.getCustomerFullName(), updatedCust_DETAILS);
+        updateId(cust_DETAILS, updatedCust_DETAILS);
+        updateAddress(cust_DETAILS, customerDetailsDTO.getCustomerFullAddress(), updatedCust_DETAILS);
+        return updatedCust_DETAILS;
     }
 
     @Override
@@ -78,6 +97,7 @@ public class CustomerServiceImpl implements CustomerService{
     {
         Optional<CUST_DETAILS> cust_DETAILS =  customerDetailsRepository.findById(id);
         CUST_POI cust_POI = customerServiceHelper.generateCust_POI(cust_DETAILS, customerPoiDTO);
+        cust_POI.setCrud_value('C');
         customerPoiRepository.save(cust_POI);
         return cust_POI;
     }
@@ -87,6 +107,7 @@ public class CustomerServiceImpl implements CustomerService{
     {
         Optional<CUST_DETAILS> cust_DETAILS = customerDetailsRepository.findById(id);
         CUST_ID cust_ID = customerServiceHelper.generateCust_ID(cust_DETAILS, IdTypeValue);
+        cust_ID.setCrud_value('C');
         customerIdRepository.save(cust_ID);
         return cust_ID;
     }
@@ -96,6 +117,7 @@ public class CustomerServiceImpl implements CustomerService{
     {
         Optional<CUST_DETAILS> cust_DETAILS = customerDetailsRepository.findById(id);
         CUST_ADDRESS cust_ADDRESS = customerServiceHelper.generateCust_ADDRESS(cust_DETAILS, AddressTypeValue);
+        cust_ADDRESS.setCrud_value('C');
         customerAddressRepository.save(cust_ADDRESS);
         return cust_ADDRESS;
     }
@@ -133,36 +155,96 @@ public class CustomerServiceImpl implements CustomerService{
         return fin_INSTITUTIONS;
     }
 
+    public void updateName(CUST_DETAILS cust_DETAILS, List<TypeValue> nameParts, CUST_DETAILS updatedCust_DETAILS)
+    {
+        if(cust_DETAILS.getFullName().equals(updatedCust_DETAILS.getFullName()))
+        {
+            return;
+        }
+        for (TypeValue namepart: nameParts)
+        {
+            CUST_NAME cust_NAME = customerServiceHelper.generateCust_NAME(cust_DETAILS, namepart);
+            cust_NAME.setCrud_value('U');
+            customerNameRepository.save(cust_NAME);
+        }
+    }
+    public void addName(CUST_DETAILS cust_DETAILS, List<TypeValue> nameParts)
+    {
+        for (TypeValue namepart: nameParts)
+        {
+            CUST_NAME cust_NAME = customerServiceHelper.generateCust_NAME(cust_DETAILS, namepart);
+            cust_NAME.setCrud_value('C');
+            customerNameRepository.save(cust_NAME);
+        }
+    }
     public void addId(CUST_DETAILS cust_DETAILS)
     {
         TypeValue mobileTypeValue = new TypeValue();
         mobileTypeValue.setType("mobile");
         mobileTypeValue.setValue(cust_DETAILS.getMobile());
         CUST_ID mobileId = customerServiceHelper.generateCust_ID(Optional.of(cust_DETAILS), mobileTypeValue);
+        mobileId.setCrud_value('C');
         customerIdRepository.save(mobileId);
 
         TypeValue emaiTypeValue = new TypeValue();
         emaiTypeValue.setType("email");
         emaiTypeValue.setValue(cust_DETAILS.getEmail());
         CUST_ID emailId = customerServiceHelper.generateCust_ID(Optional.of(cust_DETAILS), emaiTypeValue);
+        emailId.setCrud_value('C');
         customerIdRepository.save(emailId);
     }
-
-    public void addName(CUST_DETAILS cust_DETAILS, List<TypeValue> nameParts)
+    public void updateId(CUST_DETAILS cust_DETAILS, CUST_DETAILS updatedCust_DETAILS)
     {
-        for (TypeValue namepart: nameParts)
+        if (!cust_DETAILS.getMobile().equals(updatedCust_DETAILS.getMobile()))
         {
-            CUST_NAME cust_NAME = customerServiceHelper.generateCust_NAME(cust_DETAILS, namepart);
-            customerNameRepository.save(cust_NAME);
+            TypeValue mobileTypeValue = new TypeValue();
+            mobileTypeValue.setType("mobile");
+            mobileTypeValue.setValue(updatedCust_DETAILS.getMobile());
+            CUST_ID mobileId = customerServiceHelper.generateCust_ID(Optional.of(updatedCust_DETAILS), mobileTypeValue);
+            mobileId.setCrud_value('U');
+            customerIdRepository.save(mobileId);
+        }
+        else if (!cust_DETAILS.getEmail().equals(updatedCust_DETAILS.getEmail()))
+        {
+            TypeValue emaiTypeValue = new TypeValue();
+            emaiTypeValue.setType("email");
+            emaiTypeValue.setValue(updatedCust_DETAILS.getEmail());
+            CUST_ID emailId = customerServiceHelper.generateCust_ID(Optional.of(updatedCust_DETAILS), emaiTypeValue);
+            emailId.setCrud_value('U');
+            customerIdRepository.save(emailId);
         }
     }
-
     public void addAddress(CUST_DETAILS cust_DETAILS, List<TypeValue> address)
     {
         for (TypeValue territory: address)
         {
             CUST_ADDRESS cust_ADDRESS = customerServiceHelper.generateCust_ADDRESS(Optional.of(cust_DETAILS), territory);
+            cust_ADDRESS.setCrud_value('C');
             customerAddressRepository.save(cust_ADDRESS);
+        }
+    }
+
+    public void updateAddress(CUST_DETAILS cust_DETAILS, List<TypeValue> address, CUST_DETAILS updateCust_DETAILS)
+    {
+        Long cstDetIdfr = cust_DETAILS.getIdfr();
+        List<TypeValue> prevAddress = customerAddressRepository.findCustomerAddress(cstDetIdfr);
+        for (TypeValue territory: address)
+        {
+            int flag = 0;
+            for (TypeValue prevTerritory: prevAddress)
+            {
+                if (prevTerritory.equals(territory))
+                {
+                    flag = -1;
+                    break;
+                }
+            }
+            if (flag == 0)
+            {
+                CUST_ADDRESS cust_ADDRESS = customerServiceHelper.generateCust_ADDRESS(Optional.of(updateCust_DETAILS), territory);
+                cust_ADDRESS.setCrud_value('U');
+                customerAddressRepository.save(cust_ADDRESS);
+            }
         }
     }
 }
