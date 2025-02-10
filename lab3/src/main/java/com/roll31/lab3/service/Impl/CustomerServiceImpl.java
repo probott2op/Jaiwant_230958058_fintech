@@ -113,12 +113,27 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
-    public CUST_ADDRESS addCust_Address(Long id, TypeValue AddressTypeValue)
+    public CUST_ADDRESS addCustomerAddress(Long id, TypeValue AddressTypeValue)
     {
-        Optional<CUST_DETAILS> cust_DETAILS = customerDetailsRepository.findById(id);
+        Optional<CUST_DETAILS> cust_DETAILS = Optional.of(customerDetailsRepository.findCustomerRecord(id));
         CUST_ADDRESS cust_ADDRESS = customerServiceHelper.generateCust_ADDRESS(cust_DETAILS, AddressTypeValue);
         cust_ADDRESS.setCrud_value('C');
         customerAddressRepository.save(cust_ADDRESS);
+        return cust_ADDRESS;
+    }
+
+    @Override
+    public CUST_ADDRESS updateCustomerAddress(Long id, TypeValue AddressTypeValue)
+    {
+        Optional<CUST_DETAILS> cust_DETAILS = Optional.of(customerDetailsRepository.findCustomerRecord(id));
+        CUST_ADDRESS cust_ADDRESS = customerServiceHelper.generateCust_ADDRESS(cust_DETAILS, AddressTypeValue);
+        cust_ADDRESS.setCrud_value('U');
+        customerAddressRepository.save(cust_ADDRESS);
+        // checking if the country is the same or changed
+        if (!cust_DETAILS.get().getCountry().equals(customerAddressRepository.findCustomerTerritory(cust_DETAILS.get().getIdfr(), "country")))
+        {
+            cust_DETAILS.get().setCountry(AddressTypeValue.getValue());
+        }
         return cust_ADDRESS;
     }
 

@@ -17,8 +17,9 @@ public interface CustomerService {
     CUST_CL addClassification(TypeValue nameTypeValue);
     CUST_POI addCust_POI(Long id, CustomerPoiDTO customerPoiDTO);
     CUST_ID addCust_ID(Long id, TypeValue IdTypeValue);
-    CUST_ADDRESS addCust_Address(Long id, TypeValue AddressTypeValue);
+    CUST_ADDRESS addCustomerAddress(Long id, TypeValue AddressTypeValue);
     CUST_SIGNIN addSignIn(Long id, TypeValue userPassTypeValue);
     FIN_INSTITUTIONS addFinInstitution(TypeValue FinInstitutionTypeValue);
     CUST_DETAILS updateCustomerDetails(Long id, CustomerDetailsDTO customerDetailsDTO);
+    CUST_ADDRESS updateCustomerAddress(Long id, TypeValue AddressTypeValue);
 }

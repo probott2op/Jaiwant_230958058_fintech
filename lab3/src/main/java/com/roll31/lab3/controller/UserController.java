@@ -49,6 +49,8 @@ public class UserController {
         CUST_DETAILS cust_DETAILS = customerService.updateCustomerDetails(id, customerDetailsDTO);
         return cust_DETAILS;
     }
+
+
     @PostMapping("/addClassification")
     public CUST_CL createClassification(@RequestBody TypeValue nameTypeValue)
     {
@@ -78,12 +80,18 @@ public class UserController {
     }
 
     @PostMapping("/addAddress/{id}")
-    public CUST_ADDRESS createCust_ADDRESS(@PathVariable("id") Long id, @RequestBody TypeValue AddresstypeValue)
+    public CUST_ADDRESS createCust_ADDRESS(@PathVariable("id") Long id, @RequestBody TypeValue addressTypeValue)
     {
-        CUST_ADDRESS cust_ADDRESS = customerService.addCust_Address(id, AddresstypeValue);
+        CUST_ADDRESS cust_ADDRESS = customerService.addCustomerAddress(id, addressTypeValue);
         return cust_ADDRESS;
     }
 
+    @PutMapping("/updateAddress/{id}")
+    public CUST_ADDRESS updateCust_ADDRESS(@PathVariable("id") Long id, @RequestBody TypeValue addressTypeValue)
+    {
+        CUST_ADDRESS cust_ADDRESS = customerService.updateCustomerAddress(id, addressTypeValue);
+        return cust_ADDRESS;
+    }
     @PostMapping("/register/{id}")
     public CUST_SIGNIN createCust_SIGNIN(@PathVariable("id") Long id,@RequestBody TypeValue userPassTypeValue)
     {
