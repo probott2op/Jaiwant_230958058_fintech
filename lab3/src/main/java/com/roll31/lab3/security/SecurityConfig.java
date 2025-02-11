@@ -30,11 +30,16 @@ public class SecurityConfig {
     {
         http.csrf(customizer -> customizer.disable());
         http.authorizeHttpRequests(customizer -> {
+                                    customizer.requestMatchers("/v1/users/login").permitAll();
+                                    customizer.requestMatchers("/v1/admin/login").permitAll();
                                     customizer.anyRequest().authenticated();
                                     }
                                 );
         // http.authorizeRequests(request -> request.anyRequest().authenticated());
-        http.formLogin(Customizer.withDefaults());
+        // http.formLogin(Customizer.withDefaults());
+        http.formLogin(customizer -> {
+            customizer.loginPage("/v1/users/login").permitAll();
+        });
         http.httpBasic(Customizer.withDefaults());
         
         // http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

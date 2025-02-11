@@ -15,6 +15,7 @@ import com.roll31.lab3.service.CustomerService;
 import com.roll31.lab3.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -35,6 +36,12 @@ public class UserController {
         return userService.saveUser(user);
     } */
 
+    @GetMapping("/login")
+    public String getloginPage(Model model)
+    {
+        model.addAttribute("pageTitle", "Login page");
+        return "login";
+    }
     // Sign up page sends this request
     @PostMapping("/register")
     public CUST_DETAILS createCustomer(@RequestBody CustomerDetailsDTO customerDetailDTO)

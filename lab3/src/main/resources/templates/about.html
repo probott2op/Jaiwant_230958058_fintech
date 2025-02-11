@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="pageTitle"></title>
+    <link rel="stylesheet" href="styles/about-style.css">
+    <link rel="stylesheet" th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css}">
+    <script th:src="@{https://code.jquery.com/jquery-3.5.1.slim.min.js}"></script>
+    <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js}"></script>
+</head>
+<body>
+    <header>
+        <a href="/" class="header-logo">Krutev Bank</a>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="">home</a></li>
+                <li><a href="">about</a></li>
+                <li><a href="">Products</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="main-container1">
+            <div class="main-container1-left">
+                <div class="description-full">
+                    <p class="description-title">Welcome to Krutev bank</p>
+                    <p class="description-tagline"><em>Empowering your financial future</em></p>
+                </div>
+                <p class="description-content">At Krutev Bank, we are more than just a bank—we're your partner in building a secure and prosperous future. With personalized financial services, cutting-edge technology, and a commitment to community, we’re here to help you make the most of your money.</p>
+                <button class="description-login">Sign Up</button>
+            </div>
+            <div class="main-container1-right">
+                <img class="empowering-img" src="./images/empowering.png" alt="empowering the future">
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="footer">
+            <p class="footer-text">copyright © Krutev bank pvt Ltd</p>
+        </div>
+    </footer>
+</body>
+</html>

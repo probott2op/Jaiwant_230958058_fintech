@@ -31,7 +31,7 @@ public class UserController {
     @GetMapping("/users")
     public String getUsers(@RequestParam(defaultValue = "1") int page, Model model)
     {
-        int pageSize = 2;
+        int pageSize = 8;
         Page<User> userPage = userService.getPaginatedUsers(page -1 , pageSize);
         model.addAttribute("users", userPage.getContent());
         model.addAttribute("currentPage", page);
